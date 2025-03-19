@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>this 바인딩과 arrow function</title>
+</head>
+<body>
+  <h1>this 바인딩과 arrow function</h1>
+  <p>User 객체의 name을 출력하는 alert
+    <button id="userAlertBtn">출력</button>
+  </p>
+  <script>
+      //면접 화살표함수가 등장이유
+      //1.함수를 간단하게 사용하려고! (X)
+      //2.js 함수는 객체를 생성할 수 있기 때문에 this를 실행하는 객체로 바인딩 되는데
+      //이는 콜백함수로 재정의된 함수의 예상치 못한 this 바인딩 문제가 생길 수 있어서
+      //객체를 만들 수 없고 선언된 곳의 this를 바인딩 하는 화살표 함수를 만들었습니다.
+    function User(name){
+      this.name=name;
+      this.sayName=()=>{
+            alert(this.name+"아 안녕!");
+      }
+    }
+
+    const userAlertBtn = document.getElementById('userAlertBtn');
+    const user=new User("혜성");
+    console.log(user);
+    //혜성아 안녕! 이 출력되도록 해보세요!
+    //userAlertBtn.onclick=user.sayName;
+    //sayName 을 userAlertBtn 이 실행하기 때문에 this는 userAlertBtn이 된다.
+    //1.정의된 위치의 this를 갖는 화살표함수를 사용
+    //2.function.bind()를 사용해 this를 고정
+    //userAlertBtn.onclick=user.sayName.bind(user); //sayName의 this 를 user 로 하겠다.
+
+    userAlertBtn.onclick=new User().sayName;
+
+  </script>
+
+
+</body>
+</html>

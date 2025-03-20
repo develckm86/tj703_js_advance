@@ -1,7 +1,7 @@
 //js 자료형 Object,Array
 //java 자료형 class,Array[]
 
-const arr=["가","나","다","라","마","바"];
+const arr=[ "가","나","다","라","마","바"];
 //0의 필드가 "가" =>(x)
 //0번째(index)에서 "가"를 찾는다 (0)
 console.log(arr[0],arr[1],arr[2]);
@@ -21,19 +21,20 @@ const obj={0:"가",1:"나",2:"다"}
 //..
 //배열의 앞 데이터가 추가 삭제되면 뒤쪽 데이터가 앞으로 이동하거나 뒤로 이동한다. (연산이 필요,자연스럽지 않음)
 arr.push("사"); //배열의 맨 뒤에 삽입
-console.log(arr)
+console.log(arr);
 arr.pop() //배열의 맨 뒤에 데이터 삭제
-console.log(arr.pop())
-console.log(arr)
+console.log(arr.pop());
+console.log(arr);
+
 //Array.slice() : 기존에 배열에서 데이터를 추출한 후 새 배열로 반환!!!(기존 배열을 변경하면 안될 때)
 console.log(arr.slice(1,4));
 console.log(arr)
 console.log(arr.slice()); //매개변수로 아무것도 쓰지 않으면 복제
-console.log(arr===arr.slice());//false 복제, true 기존의 배열을 반환
+console.log(arr===arr.slice());//false 복제 (O), true 기존의 배열을 반환 (X)
 
-// ... 스프레드 문법(전개 문법) (배열을 복제하거나 데이터를 추출할때)
+// ... 스프레드 연산자(문법)(전개 문법) (배열을 복제하거나 데이터를 추출할때)
 
-const copyArr=[...arr];
+const copyArr=[...arr]; //[] ===new Array()
 console.log(copyArr);
 console.log(arr===copyArr)
 
@@ -49,6 +50,7 @@ let [x,y,z]=nums; //x,y,z let 으로 선언됨
 console.log(a,b,c)
 console.log(x,y,z);
 console.log(sum(nums[0],nums[1],nums[2]));
+
 console.log(sum(...nums));
 function sum(a,b,c){
     return a+b+c;
@@ -62,6 +64,18 @@ console.log(obj2);
 const copyObj={...obj2}
 console.log(copyObj);
 console.log(obj2===copyObj);
+let n3=obj2["name"];
+n3=obj2.name;
+let {name,age,childs}=obj2;
+console.log("obj2",name,age,childs)
+//objHello의 매개변수는 object 만 가능 => object의 필드를 매개변수로 사용
+/**이함수의 매개변수 name 이름 ...*/
+function objHello( {age, childs, name} ){
+    console.log("objHello",age,childs,name);
+}
+objHello(obj2);
+
+
 //Array.splice : 기존 배열의 데이터를 삭제 또는 추가하기 사용하는 함수
 console.log(arr)
 console.log(arr.splice(0,1,"A","B"));
@@ -131,7 +145,7 @@ console.log(Number.isInteger("12"));
 
 //Number.isNaN :형변환 없이 NaN인지 검사
 console.log(Number.isNaN(NaN)); //true
-console.log(Number.isNaN("사")) //false
+console.log(Number.isNaN(Number("사"))) //false
 console.log(Number.isNaN("사"-1)); //"사"-1 =>"사"를 수로 형변환 -> NaN-1 -> NaN
 
 
@@ -140,12 +154,25 @@ const originNums=numTestArr.filter((n)=>{
 })
 console.log(originNums);
 console.log(numTestArr);
+
 const timeArrTest=["07:33","13:22","12:00","23:11","03:10","03:01","12:11"];
-//
+const timeObjArr=timeArrTest.map((timeStr)=>{
+    const times=timeStr.split(":"); //["07","33"]
+    return {h:times[0],m:times[1]};
+});
+console.log(timeObjArr);
 //1.timeArrTest를 [{h:'07',m:'33'},{h:'13',m:'22'},{h:'23',m:'11'}...] 변경한 배열을 반환(map)
 //2. 1번에서 반환한 배열을 시간이 오전인 것만 찾아서 반환(filter)
 //3. 2을 시간순(ASC)으로 정렬하세요!
 
+const amArr=timeObjArr.filter((timeObj)=>{
+    return (Number(timeObj.h)<12);
+});
+console.log(amArr);
+const sortAmArr=[...amArr].sort((t1,t2)=>{
+    return (t1.h*60+Number(t1.m))-(t2.h*60+Number(t2.m));
+});
+console.log(sortAmArr);
 const stusTest=[
     {id:11,name:"경민"},
     {id:1,name:"상혁"},
@@ -153,4 +180,15 @@ const stusTest=[
     {id:2,name:"영중"},
 ];
 //4.{id:3, name:"test"} 학생을 포함하는 새로운 stusTest를 만드세요 (...)
+let newStusTest=[
+    ...stusTest,
+    {id:3, name:"test"}
+];
+//newStusTest=stusTest.slice().push({id:3, name:"test"});
+console.log(newStusTest);
+
 //5.id가 11인 학생을 제외한 배열을 만드세요.
+const newStusTest2=newStusTest.filter((str)=>{
+    return str.id !==11;
+})
+console.log(newStusTest2);

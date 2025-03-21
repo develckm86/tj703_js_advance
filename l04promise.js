@@ -54,6 +54,9 @@ async function test(){
     console.log(d);
 
     let i=await setNum(10,6000);
+
+
+
     console.log(i)
     //fetch(url); <-Promise 화된 함수
     const res=await fetch("http://localhost:8080");
@@ -65,6 +68,7 @@ test();
 function setNum(num,time){
     return new Promise((resolve)=>{
         setTimeout(()=>{
+            //....
             resolve(num)
         },time);
     })
